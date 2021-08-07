@@ -1,0 +1,12 @@
+{
+  "_template": "gh:cjolowicz/cookiecutter-hypermodern-python",
+  "author": "Paul Everitt",
+  "development_status": "Development Status :: 3 - Alpha",
+  "email": "pauleveritt@me.com",
+  "friendly_name": "Storytime",
+  "github_user": "pauleveritt",
+  "license": "MIT",
+  "package_name": "storytime",
+  "project_name": "storytime",
+  "version": "0.0.0"
+}
