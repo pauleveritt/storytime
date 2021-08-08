@@ -1,3 +1,4 @@
 sphinx==4.1.2
 sphinx-click==3.0.1
 furo==2021.7.31-beta.41
+myst-parser=0.15.1
