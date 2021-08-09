@@ -1,7 +1,7 @@
 """Ensure all variations of a ``Story`` obey policies."""
 from viewdom.render import html
 
-from storytime import Story
+from storytime.story import Story
 
 
 def test_empty() -> None:
