@@ -110,6 +110,7 @@ class Site:
             # Import the module and try to get Section
             module = import_stories(stories_path)
             section = get_certain_callable(module)
+            section.make_subjects()
             if section and isinstance(section, Section):
                 self.tree[section] = []
         return
@@ -120,10 +121,31 @@ class Section:
     """A grouping of stories, such as ``Views``."""
 
     title: str
+    section_path: Path
+    subjects: dict[Subject, list[Subject]] = field(default_factory=dict, hash=False)
+
+    def make_subjects(self) -> None:
+        """From this directory, look for ``stories.py`` in subdirs."""
+        # Get the first level of directories at the path
+        for stories_path in self.section_path.glob("*/stories.py"):
+            # Import the module and try to get Section
+            module = import_stories(stories_path)
+            subject = get_certain_callable(module)
+            if subject and isinstance(subject, Subject):
+                self.subjects[subject] = []
 
 
-@dataclass()
+@dataclass(frozen=True)
 class Subject:
     """The component that a group of stories or variants is about."""
+
+    title: str
+    subject_path: Path
+    stories: list[Story] = field(default_factory=list, hash=False)
+
+
+@dataclass(frozen=True)
+class Story:
+    """The actual contents of an actual story."""
 
     title: str

@@ -1,4 +1,6 @@
 """A stories module which does not correctly export stories."""
+from pathlib import Path
+
 from storytime import Section
 
 
@@ -10,4 +12,7 @@ def make_title() -> str:
 # We intentionally don't want a return type.
 def no_stories():  # type: ignore
     """No type hint on return value, so not used."""
-    return Section(title=make_title())
+    return Section(
+        title=make_title(),
+        section_path=Path(__file__).parent,
+    )

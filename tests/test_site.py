@@ -5,6 +5,7 @@ from storytime import get_certain_callable
 from storytime import import_stories
 from storytime import make_target_path
 from storytime import Site
+from storytime import Subject
 
 
 def test_target_path_package() -> None:
@@ -63,5 +64,27 @@ def test_site_collect_sections() -> None:
     target = make_target_path("examples.minimal")
     site = Site(target=target)
     site.make_sections()
-    first_key = list(site.tree.keys())[0]
-    assert first_key.title == "Components"
+    first_section = list(site.tree.keys())[0]
+    assert first_section.title == "Components"
+
+
+def test_section_construction() -> None:
+    """Get a section from the examples and see if it looks right."""
+    from examples.minimal.components.stories import this_section
+
+    section = this_section()
+    assert section.title == "Components"
+    assert section.section_path.name == "components"
+    assert section.subjects == {}
+
+
+def test_section_make_subjects() -> None:
+    """Look for component stories in a section."""
+    from examples.minimal.components.stories import this_section
+
+    section = this_section()
+    section.make_subjects()
+    first_subject = list(section.subjects.keys())[0]
+    assert isinstance(first_subject, Subject)
+    assert first_subject.title == "Heading"
+    assert first_subject.stories[0].title == "Default Heading"
