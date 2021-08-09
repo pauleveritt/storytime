@@ -2,14 +2,28 @@
 import pytest
 
 from storytime import get_certain_callable
+from storytime import import_stories
 from storytime import make_target_path
 from storytime import Site
 
 
-def test_target_path() -> None:
-    """Ensure that the target path exists and is stored."""
+def test_target_path_package() -> None:
+    """Ensure that a package path exists and is stored."""
     result = make_target_path("examples.minimal")
     assert result.name == "minimal"
+
+
+def test_target_path_module() -> None:
+    """Ensure that a module path exists and is stored."""
+    result = make_target_path("examples.minimal.components.stories")
+    assert result.name == "stories.py"
+
+
+def test_import_stories_success() -> None:
+    """Able to import a module at a path."""
+    stories_path = make_target_path("examples.minimal.components.stories")
+    module = import_stories(stories_path)
+    assert module.__name__ == "stories.py"
 
 
 def test_target_path_not_exist() -> None:
@@ -18,13 +32,6 @@ def test_target_path_not_exist() -> None:
         make_target_path("examples.not.exist")
     expected = "examples.not.exist is not a package in this environment."
     assert exc.value.args[0] == expected
-
-
-def test_site_construction() -> None:
-    """Make sure a ``Site`` gets constructed with empty tree."""
-    target_path = make_target_path("examples.minimal")
-    site = Site(target_path)
-    assert site.tree == {}
 
 
 def test_get_certain_callable() -> None:
@@ -43,3 +50,16 @@ def test_no_callable() -> None:
     section = get_certain_callable(stories)
     assert section is None
 
+
+def test_site_construction() -> None:
+    """Make sure a ``Site`` gets constructed with empty tree."""
+    target_path = make_target_path("examples.minimal")
+    site = Site(target_path)
+    assert site.tree == {}
+
+
+def test_site_collect_sections() -> None:
+    """Point the site at the first level of sections and fill tree."""
+    target = make_target_path("examples.minimal")
+    site = Site(target=target)
+    assert 9 == site.make_sections()

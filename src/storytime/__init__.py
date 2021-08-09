@@ -9,6 +9,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from dataclasses import field
 from importlib import import_module
+from importlib.util import module_from_spec
+from importlib.util import spec_from_file_location
 from inspect import getmembers
 from inspect import isfunction
 from pathlib import Path
@@ -19,7 +21,7 @@ from typing import Union
 
 
 def make_target_path(target_module: str) -> Path:
-    """Convert the module at ``target_module`` to an full ``Path``.
+    """Convert the module at ``target_module`` to a full ``Path``.
 
     Called from the CLI handler to construct a place to look.
 
@@ -38,8 +40,22 @@ def make_target_path(target_module: str) -> Path:
         # Re-raise but with a nicer error message
         msg = f"{target_module} is not a package in this environment."
         raise ModuleNotFoundError(msg)
-    module_path = Path(module_root.__file__).parent
+    module_path = Path(module_root.__file__)
+    if module_path.name == "__init__.py":
+        # This is a package, return parent
+        return module_path.parent
     return Path(module_path)
+
+
+def import_stories(stories_path: Path) -> ModuleType:
+    """Given a full path to a stories file, import and return the module."""
+    spec = spec_from_file_location(stories_path.name, stories_path)
+    if spec is None:
+        # No module at that path
+        return
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def get_certain_callable(module: ModuleType) -> Optional[Union[Section, Subject]]:
@@ -85,6 +101,17 @@ class Site:
 
     target: Path
     tree: dict[Section, list[Subject]] = field(default_factory=dict)
+
+    def make_sections(self) -> None:
+        """Crawl the first level of directories to get each ``Section``."""
+        # Get the first level of directories at the path
+        for stories_path in self.target.glob("*/stories.py"):
+            # Import the module and try to get Section
+            module = import_stories(stories_path)
+            section = get_certain_callable(module)
+            if section:
+                return section
+        return
 
 
 @dataclass()
