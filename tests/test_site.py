@@ -42,3 +42,4 @@ def test_no_callable() -> None:
 
     section = get_certain_callable(stories)
     assert section is None
+

@@ -2,12 +2,12 @@
 from storytime import Section
 
 
-def not_used() -> int:
+def make_title() -> str:
     """Make sure the sniffer doesn't break."""
-    return 99
+    return "Components"
 
 
 # We intentionally don't want a return type.
 def no_stories():  # type: ignore
     """No type hint on return value, so not used."""
-    return Section(title="Components")
+    return Section(title=make_title())
