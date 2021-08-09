@@ -14,5 +14,5 @@ def this_subject() -> Subject:
             Story(
                 title="Default Heading",
             )
-        ]
+        ],
     )

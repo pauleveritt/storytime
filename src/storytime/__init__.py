@@ -19,6 +19,8 @@ from typing import get_type_hints
 from typing import Optional
 from typing import Union
 
+from viewdom.render import VDOM
+
 
 def make_target_path(target_module: str) -> Path:
     """Convert the module at ``target_module`` to a full ``Path``.
@@ -110,8 +112,8 @@ class Site:
             # Import the module and try to get Section
             module = import_stories(stories_path)
             section = get_certain_callable(module)
-            section.make_subjects()
             if section and isinstance(section, Section):
+                section.make_subjects()
                 self.tree[section] = []
         return
 
@@ -149,3 +151,4 @@ class Story:
     """The actual contents of an actual story."""
 
     title: str
+    template: Optional[VDOM] = None
