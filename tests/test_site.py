@@ -62,4 +62,6 @@ def test_site_collect_sections() -> None:
     """Point the site at the first level of sections and fill tree."""
     target = make_target_path("examples.minimal")
     site = Site(target=target)
-    assert 9 == site.make_sections()
+    site.make_sections()
+    first_key = list(site.tree.keys())[0]
+    assert first_key.title == "Components"

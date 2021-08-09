@@ -110,12 +110,12 @@ class Site:
             # Import the module and try to get Section
             module = import_stories(stories_path)
             section = get_certain_callable(module)
-            if section:
-                return section
+            if section and isinstance(section, Section):
+                self.tree[section] = []
         return
 
 
-@dataclass()
+@dataclass(frozen=True)
 class Section:
     """A grouping of stories, such as ``Views``."""
 
