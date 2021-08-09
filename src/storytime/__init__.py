@@ -52,9 +52,10 @@ def import_stories(stories_path: Path) -> ModuleType:
     spec = spec_from_file_location(stories_path.name, stories_path)
     if spec is None:
         # No module at that path
-        return
+        msg = f"No stories file at {stories_path}"
+        raise ModuleNotFoundError(msg)
     module = module_from_spec(spec)
-    spec.loader.exec_module(module)
+    spec.loader.exec_module(module)  # type: ignore
     return module
 
 
