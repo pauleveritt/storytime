@@ -1,4 +1,3 @@
-
 ```{toctree}
 ---
 maxdepth: 1
@@ -10,4 +9,3 @@ Code of Conduct <codeofconduct>
 License <license>
 Changelog <https://github.com/pauleveritt/storytime/releases>
 ```
-
