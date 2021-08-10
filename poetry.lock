@@ -100,7 +100,7 @@ stevedore = ">=1.20.0"
 name = "beautifulsoup4"
 version = "4.9.3"
 description = "Screen-scraping library"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -901,7 +901,7 @@ python-versions = "*"
 name = "soupsieve"
 version = "2.2.1"
 description = "A modern CSS selector implementation for Beautiful Soup."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -1181,7 +1181,7 @@ tests = ["codecov", "scikit-build", "cmake", "ninja", "pybind11", "pytest", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9.5"
-content-hash = "70ebdaaf894e2cf73a6725f97ec2da10540cea9daf14ada1bfcc0354b8b81c0e"
+content-hash = "bd8e32d8381b922a0d8c13c865d4962378a3fcd0b86f6e161eb04ee22e15e6f5"
 
 [metadata.files]
 alabaster = [

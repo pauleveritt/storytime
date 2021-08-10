@@ -23,6 +23,7 @@ hopscotch = {git = "https://github.com/pauleveritt/hopscotch.git", rev = "main"}
 viewdom = { path = "../hopscotch-viewdom/", develop = false }
 venusian = "^3.0.0"
 tagged = "^0.0.2"
+beautifulsoup4 = "^4.9.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"

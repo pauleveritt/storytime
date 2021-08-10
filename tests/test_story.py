@@ -13,5 +13,6 @@ def test_empty() -> None:
 def test_template() -> None:
     """The simplest possible *useful* story."""
     template = html("<div>Hello</div>")
-    story = Story(title="Tempalte", template=template)
+    story = Story(title="Template", template=template)
     assert story.template == template
+    assert str(story.html) == "<div>Hello</div>"
