@@ -1,8 +1,8 @@
 """The subject for this Heading component."""
 from pathlib import Path
 
-from storytime import Story
 from storytime import Subject
+from storytime.story import Story
 
 
 def this_subject() -> Subject:
@@ -14,5 +14,5 @@ def this_subject() -> Subject:
             Story(
                 title="Default Heading",
             )
-        ]
+        ],
     )

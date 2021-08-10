@@ -17,7 +17,11 @@ from pathlib import Path
 from types import ModuleType
 from typing import get_type_hints
 from typing import Optional
+from typing import TYPE_CHECKING
 from typing import Union
+
+if TYPE_CHECKING:
+    from .story import Story
 
 
 def make_target_path(target_module: str) -> Path:
@@ -110,8 +114,8 @@ class Site:
             # Import the module and try to get Section
             module = import_stories(stories_path)
             section = get_certain_callable(module)
-            section.make_subjects()
             if section and isinstance(section, Section):
+                section.make_subjects()
                 self.tree[section] = []
         return
 
@@ -142,10 +146,3 @@ class Subject:
     title: str
     subject_path: Path
     stories: list[Story] = field(default_factory=list, hash=False)
-
-
-@dataclass(frozen=True)
-class Story:
-    """The actual contents of an actual story."""
-
-    title: str
