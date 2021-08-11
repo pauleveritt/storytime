@@ -1141,7 +1141,7 @@ url = "../hopscotch-viewdom"
 
 [[package]]
 name = "virtualenv"
-version = "20.7.0"
+version = "20.7.1"
 description = "Virtual Python Environment builder"
 category = "dev"
 optional = false
@@ -1808,8 +1808,8 @@ venusian = [
 ]
 viewdom = []
 virtualenv = [
-    {file = "virtualenv-20.7.0-py2.py3-none-any.whl", hash = "sha256:fdfdaaf0979ac03ae7f76d5224a05b58165f3c804f8aa633f3dd6f22fbd435d5"},
-    {file = "virtualenv-20.7.0.tar.gz", hash = "sha256:97066a978431ec096d163e72771df5357c5c898ffdd587048f45e0aecc228094"},
+    {file = "virtualenv-20.7.1-py2.py3-none-any.whl", hash = "sha256:73863dc3be1efe6ee638e77495c0c195a6384ae7b15c561f3ceb2698ae7267c1"},
+    {file = "virtualenv-20.7.1.tar.gz", hash = "sha256:57bcb59c5898818bd555b1e0cfcf668bd6204bc2b53ad0e70a52413bd790f9e4"},
 ]
 xdoctest = [
     {file = "xdoctest-0.15.6-py2.py3-none-any.whl", hash = "sha256:4ba30ad2aadd6474388b185ced6d8146490d3720665c6964891c19b4b169b5fc"},

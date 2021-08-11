@@ -18,10 +18,11 @@ class Story:
 
     @property
     def html(self) -> BeautifulSoup:
+        """Render to a DOM-like BeautifulSoup representation."""
         # if self.registry is None:
         #     rendered = viewdom_render(self.vdom)
         # else:
         #     rendered = viewdom_wired_render(self.vdom, container=self.container)
         rendered = render(self.template)
-        this_html = BeautifulSoup(rendered, 'html.parser')
+        this_html = BeautifulSoup(rendered, "html.parser")
         return this_html

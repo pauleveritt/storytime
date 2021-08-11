@@ -20,6 +20,8 @@ from typing import Optional
 from typing import TYPE_CHECKING
 from typing import Union
 
+from hopscotch import Registry
+
 if TYPE_CHECKING:
     from .story import Story
 
@@ -105,7 +107,19 @@ class Site:
     """
 
     target: Path
+    registry: Registry = field(default_factory=Registry)
     tree: dict[Section, list[Subject]] = field(default_factory=dict)
+
+    def add_section(self, section: Section) -> Section:
+        """Add a section to the tree while updating defaults from parent."""
+        if section not in self.tree:
+            self.tree[section] = []
+        acquired_attrs = ("registry",)
+        for acquired_attr in acquired_attrs:
+            if not getattr(section, acquired_attr, False):
+                self_attr = getattr(self, acquired_attr)
+                setattr(section, acquired_attr, self_attr)
+        return section
 
     def make_sections(self) -> None:
         """Crawl the first level of directories to get each ``Section``."""
@@ -116,16 +130,17 @@ class Site:
             section = get_certain_callable(module)
             if section and isinstance(section, Section):
                 section.make_subjects()
-                self.tree[section] = []
+                self.add_section(section)
         return
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class Section:
     """A grouping of stories, such as ``Views``."""
 
     title: str
     section_path: Path
+    registry: Optional[Registry] = None
     subjects: dict[Subject, list[Subject]] = field(default_factory=dict, hash=False)
 
     def make_subjects(self) -> None:
@@ -145,4 +160,5 @@ class Subject:
 
     title: str
     subject_path: Path
+    registry: Optional[Registry] = None
     stories: list[Story] = field(default_factory=list, hash=False)

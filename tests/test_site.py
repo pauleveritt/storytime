@@ -1,17 +1,34 @@
 """The ``Site`` is the top of the Storytime catalog."""
+from pathlib import Path
+
 import pytest
+from hopscotch import Registry
 
 from storytime import get_certain_callable
 from storytime import import_stories
 from storytime import make_target_path
+from storytime import Section
 from storytime import Site
 from storytime import Subject
 
 
-def test_target_path_package() -> None:
+@pytest.fixture(scope="session")
+def minimal() -> Path:
+    """Make the path to the minimal examples."""
+    p = make_target_path("examples.minimal")
+    return p
+
+
+@pytest.fixture()
+def minimal_site(minimal) -> Site:
+    """A ``Site`` pointed at target of ``examples.minimal``."""
+    s = Site(target=minimal)
+    return s
+
+
+def test_target_path_package(minimal) -> None:
     """Ensure that a package path exists and is stored."""
-    result = make_target_path("examples.minimal")
-    assert result.name == "minimal"
+    assert minimal.name == "minimal"
 
 
 def test_target_path_module() -> None:
@@ -52,19 +69,15 @@ def test_no_callable() -> None:
     assert section is None
 
 
-def test_site_construction() -> None:
+def test_site_construction(minimal_site) -> None:
     """Make sure a ``Site`` gets constructed with empty tree."""
-    target_path = make_target_path("examples.minimal")
-    site = Site(target_path)
-    assert site.tree == {}
+    assert minimal_site.tree == {}
 
 
-def test_site_collect_sections() -> None:
+def test_site_collect_sections(minimal_site) -> None:
     """Point the site at the first level of sections and fill tree."""
-    target = make_target_path("examples.minimal")
-    site = Site(target=target)
-    site.make_sections()
-    first_section = list(site.tree.keys())[0]
+    minimal_site.make_sections()
+    first_section = list(minimal_site.tree.keys())[0]
     assert first_section.title == "Components"
 
 
@@ -88,3 +101,26 @@ def test_section_make_subjects() -> None:
     assert isinstance(first_subject, Subject)
     assert first_subject.title == "Heading"
     assert first_subject.stories[0].title == "Default Heading"
+
+
+def test_site_add_section_no_registry(minimal, minimal_site) -> None:
+    """The ``Section`` doesn't set a registry so get from ``Site``."""
+    section_path = minimal / "components"
+    section = Section(title="Minimal Section", section_path=section_path)
+    updated_section = minimal_site.add_section(section)
+    assert updated_section.title == "Minimal Section"
+    assert section.registry is minimal_site.registry
+
+
+def test_site_add_section_has_registry(minimal, minimal_site) -> None:
+    """This ``Section`` assigned a registry so don't acquire from ``Site``."""
+    section_registry = Registry()
+    section_path = minimal / "components"
+    section = Section(
+        title="Minimal Section",
+        section_path=section_path,
+        registry=section_registry,
+    )
+    updated_section = minimal_site.add_section(section)
+    assert updated_section.title == "Minimal Section"
+    assert section.registry is not minimal_site.registry
