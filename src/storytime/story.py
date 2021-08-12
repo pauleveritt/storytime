@@ -23,6 +23,6 @@ class Story:
         #     rendered = viewdom_render(self.vdom)
         # else:
         #     rendered = viewdom_wired_render(self.vdom, container=self.container)
-        rendered = render(self.template)
+        rendered = render(self.template)  # type: ignore
         this_html = BeautifulSoup(rendered, "html.parser")
         return this_html
