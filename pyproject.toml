@@ -19,7 +19,7 @@ Changelog = "https://github.com/pauleveritt/storytime/releases"
 [tool.poetry.dependencies]
 python = "^3.9.5"
 click = "^8.0.1"
-hopscotch = {git = "https://github.com/pauleveritt/hopscotch.git", rev = "main"}
+hopscotch = { git = "https://github.com/pauleveritt/hopscotch.git", rev = "main" }
 viewdom = { path = "../hopscotch-viewdom/", develop = false }
 venusian = "^3.0.0"
 tagged = "^0.0.2"
@@ -27,10 +27,10 @@ beautifulsoup4 = "^4.9.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
-coverage = {extras = ["toml"], version = "^5.4"}
+coverage = { extras = ["toml"], version = "^5.4" }
 safety = "^1.10.3"
 mypy = "^0.910"
-xdoctest = {extras = ["colors"], version = "^0.15.5"}
+xdoctest = { extras = ["colors"], version = "^0.15.5" }
 sphinx = "^4.1.2"
 sphinx-autobuild = "^2021.3.14"
 pre-commit = "^2.14.0"
@@ -71,6 +71,12 @@ pretty = true
 show_column_numbers = true
 show_error_codes = true
 show_error_context = true
+
+[[tool.mypy.overrides]]
+module = [
+    "bs4",
+]
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
